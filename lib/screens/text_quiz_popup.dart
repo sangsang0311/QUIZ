@@ -398,19 +398,20 @@ class _TextQuizPopupState extends State<TextQuizPopup>
                     min: 0,
                     max: 5,
                     divisions: 2, // 0, 3, 5초
-                    label: countdownSeconds == 0 ? '없음' : '${countdownSeconds}초',
-                    onChangeStart: (value) {
-                      // 슬라이더를 클릭하는 순간 값 변경
-                      final newValue = value.toInt();
-                      if (newValue != countdownSeconds) {
-                        SoundManager().playHover();
-                        setState(() {
-                          countdownSeconds = newValue;
-                        });
-                      }
+                    label: countdownSeconds == 0 ? "없음" : "$countdownSeconds초",
+                    onChangeStart: (_) {
+                      // onChangeStart에서는 사운드 재생하지 않음
                     },
                     onChanged: (value) {
-                      final newValue = value.toInt();
+                      int newValue;
+                      // 0, 3, 5 중 가장 가까운 값으로 설정
+                      if (value < 1.5) {
+                        newValue = 0;
+                      } else if (value < 4) {
+                        newValue = 3;
+                      } else {
+                        newValue = 5;
+                      }
                       if (newValue != countdownSeconds) {
                         // 값이 변경될 때만 호버 사운드 재생
                         SoundManager().playHover();
