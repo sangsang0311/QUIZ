@@ -1347,8 +1347,8 @@ class _TextQuizGameScreenState extends State<TextQuizGameScreen>
                                                 },
                                               ),
                                             ),
-                                            // 정답 표시 (하단 30%)
-                                            if (showRevealButton || showAnswer)
+                                            // 정답 표시 (하단 30%) - showAnswer가 true일 때만 표시
+                                            if (showAnswer)
                                               _buildLandscapeAnswerOverlay(question, finalContainerWidth, containerHeight),
                                           ],
                                         ),
