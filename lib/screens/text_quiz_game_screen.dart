@@ -246,6 +246,9 @@ class _TextQuizGameScreenState extends State<TextQuizGameScreen>
       showNextButton = false;
     });
 
+    // 정답 텍스트 애니메이션 컨트롤러 리셋 (가로모드에서 정답이 자동으로 표시되는 버그 수정)
+    _answerTextController.reset();
+
     // 문제 텍스트 먼저 페이드인
     _questionController.forward(from: 0.0);
     
@@ -1445,6 +1448,11 @@ class _TextQuizGameScreenState extends State<TextQuizGameScreen>
         animation: _answerTextController,
         builder: (context, child) {
           final progress = _answerTextController.value;
+          
+          // progress가 0이면 아무것도 표시하지 않음 (정답공개 버튼을 눌러야만 표시)
+          if (progress <= 0.0) {
+            return const SizedBox.shrink();
+          }
           
           return Center(
             child: secondLine != null
